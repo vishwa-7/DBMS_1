@@ -1,0 +1,138 @@
+Create table Actor(Act_id int(10) primary key,Act_Name char(20),Act_Gender char(10));
+desc Actor;
++------------+----------+------+-----+---------+-------+
+| Field      | Type     | Null | Key | Default | Extra |
++------------+----------+------+-----+---------+-------+
+| Act_id     | int(10)  | NO   | PRI | NULL    |       |
+| Act_Name   | char(20) | YES  |     | NULL    |       |
+| Act_Gender | char(10) | YES  |     | NULL    |       |
++------------+----------+------+-----+---------+-------+
+
+ Create table Director(Dir_id int(10) primary key, Dir_Name char(20), Dir_Phone int(20));
+desc Director;
++-----------+----------+------+-----+---------+-------+
+| Field     | Type     | Null | Key | Default | Extra |
++-----------+----------+------+-----+---------+-------+
+| Dir_id    | int(10)  | NO   | PRI | NULL    |       |
+| Dir_Name  | char(20) | YES  |     | NULL    |       |
+| Dir_Phone | int(20)  | YES  |     | NULL    |       |
++-----------+----------+------+-----+---------+-------+
+
+ Create table Movies(Mov_id int(10) primary key,Mov_Title char(20),Mov_Year int(20),Mov_Lang char(20),Dir_id int(10) ,foreign key(Dir_id) references Director(Dir_id) ON Update Cascade ON Delete Cascade);
+desc Movies;
++-----------+----------+------+-----+---------+-------+
+| Field     | Type     | Null | Key | Default | Extra |
++-----------+----------+------+-----+---------+-------+
+| Mov_id    | int(10)  | NO   | PRI | NULL    |       |
+| Mov_Title | char(20) | YES  |     | NULL    |       |
+| Mov_Year  | int(20)  | YES  |     | NULL    |       |
+| Mov_Lang  | char(20) | YES  |     | NULL    |       |
+| Dir_id    | int(10)  | YES  | MUL | NULL    |       |
++-----------+----------+------+-----+---------+-------+
+
+create table Movie_Cast(Act_id int(10),Mov_id int(10), Role char(20),primary key(Act_id,Mov_id), foreign key(Act_id) references Actor(Act_id) ON Update cascade ON Delete cascade,foreign key(Mov_id) references Movies(Mov_id) ON Update cascade ON Delete Cascade);
+ desc Movie_Cast;
++--------+----------+------+-----+---------+-------+
+| Field  | Type     | Null | Key | Default | Extra |
++--------+----------+------+-----+---------+-------+
+| Act_id | int(10)  | NO   | PRI | NULL    |       |
+| Mov_id | int(10)  | NO   | PRI | NULL    |       |
+| Role   | char(20) | YES  |     | NULL    |       |
++--------+----------+------+-----+---------+-------+
+
+create table Rating(Mov_id int(10) primary key,Rev_Stars int(10),foreign key(Mov_id) references Movies(Mov_id) ON Update Cascade ON Delete cascade);
+desc Rating;
++-----------+---------+------+-----+---------+-------+
+| Field     | Type    | Null | Key | Default | Extra |
++-----------+---------+------+-----+---------+-------+
+| Mov_id    | int(10) | NO   | PRI | NULL    |       |
+| Rev_Stars | int(10) | YES  |     | NULL    |       |
++-----------+---------+------+-----+---------+-------+
+
+
+insert into Actor values(01,"Vijay","Male");
+insert into Actor values(02,"Surya","Male");
+insert into Actor values(03,"Mahesh","Male");
+insert into Actor values(04,"Anushka","Female");
+insert into Actor values(05,"Tamanna","Female");
+ Select *from Actor;
++--------+----------+------------+
+| Act_id | Act_Name | Act_Gender |
++--------+----------+------------+
+|      1 | Vijay    | Male       |
+|      2 | Surya    | Male       |
+|      3 | Mahesh   | Male       |
+|      4 | Anushka  | Female     |
+|      5 | Tamanna  | Female     |
++--------+----------+------------+
+
+ insert into Director values(10,"Hitchcock",983292321);
+ insert into Director values(20,"Rajmouli",983292322);
+ insert into Director values(30,"Steven Spielberg",983292323);
+insert into Director values(40,"Narthan",983292324);
+ insert into Director values(50,"Prashanth",983292325);
+select *from Director;
++--------+------------------+-----------+
+| Dir_id | Dir_Name         | Dir_Phone |
++--------+------------------+-----------+
+|     10 | Hitchcock        | 983292321 |
+|     20 | Rajmouli         | 983292322 |
+|     30 | Steven Spielberg | 983292323 |
+|     40 | Narthan          | 983292324 |
+|     50 | Prashanth        | 983292325 |
++--------+------------------+-----------+
+
+insert into Movies values(100,"Thor",1998,"English",10);
+insert into Movies values(200,"Hulk",2005,"English",20);
+ insert into Movies values(300,"Ant-Man",2017,"English",30);
+insert into Movies values(400,"RRR",2020,"Telugu",40);
+insert into Movies values(500,"Ironman",1999,"English",50);
+ select *from Movies;
++--------+-----------+----------+----------+--------+
+| Mov_id | Mov_Title | Mov_Year | Mov_Lang | Dir_id |
++--------+-----------+----------+----------+--------+
+|    100 | Thor      |     1998 | English  |     10 |
+|    200 | Hulk      |     2005 | English  |     20 |
+|    300 | Ant-Man   |     2017 | English  |     30 |
+|    400 | RRR       |     2020 | Telugu   |     40 |
+|    500 | Ironman   |     1999 | English  |     50 |
++--------+-----------+----------+----------+--------+
+
+insert into Movie_Cast values(1,100,"Hero");
+insert into Movie_Cast values(5,100,"Heroine");
+insert into Movie_Cast values(2,200,"Hero");
+ insert into Movie_Cast values(1,200,"Villian");
+ insert into Movie_Cast values(3,300,"Hero");
+insert into Movie_Cast values(5,300,"Heroine");
+insert into Movie_Cast values(4,400,"Heroine");
+insert into Movie_Cast values(3,500,"Hero");
+select *from Movie_Cast;
++--------+--------+---------+
+| Act_id | Mov_id | Role    |
++--------+--------+---------+
+|      1 |    100 | Hero    |
+|      1 |    200 | Villian |
+|      2 |    200 | Hero    |
+|      3 |    300 | Hero    |
+|      3 |    500 | Hero    |
+|      4 |    400 | Heroine |
+|      5 |    100 | Heroine |
+|      5 |    300 | Heroine |
++--------+--------+---------+
+
+insert into Rating values(100,5);
+insert into Rating values(200,1);
+insert into Rating values(300,2);
+insert into Rating values(400,5);
+insert into Rating values(500,3);
+select *from Rating;
++--------+-----------+
+| Mov_id | Rev_Stars |
++--------+-----------+
+|    100 |         5 |
+|    200 |         1 |
+|    300 |         2 |
+|    400 |         5 |
+|    500 |         3 |
++--------+-----------+
+
