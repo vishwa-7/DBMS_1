@@ -1,0 +1,124 @@
+ create table Student(usn varchar(20) primary key,sname char(10),address char(10),phone int(10),gender char(10));
+desc Student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| usn     | varchar(20) | NO   | PRI | NULL    |       |
+| sname   | char(10)    | YES  |     | NULL    |       |
+| address | char(10)    | YES  |     | NULL    |       |
+| phone   | int(10)     | YES  |     | NULL    |       |
+| gender  | char(10)    | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+
+
+create table Semsec(ssid varchar(10) primary key,sem int(10),sec char(10));
+desc Semsec;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ssid  | varchar(10) | NO   | PRI | NULL    |       |
+| sem   | int(10)     | YES  |     | NULL    |       |
+| sec   | char(10)    | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+
+create table Class(usn varchar(10) primary key,ssid varchar(10),foreign key(usn) references Student(usn) ON Update cascade ON Delete cascade,foreign key(ssid) references Semsec(ssid) ON Update cascade ON Delete cascade);
+desc Class;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| usn   | varchar(10) | NO   | PRI | NULL    |       |
+| ssid  | varchar(10) | YES  | MUL | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+
+
+ create table Course(subcode varchar(10) primary key,title char(10),sem int(10),credits int(10));
+ desc Course;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| subcode | varchar(10) | NO   | PRI | NULL    |       |
+| title   | char(10)    | YES  |     | NULL    |       |
+| sem     | int(10)     | YES  |     | NULL    |       |
+| credits | int(10)     | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+
+ create table Iamarks(usn varchar(10),subcode varchar(10),ssid varchar(10),test1 int(10),test2 int(10),test3 int(10),finalia int(10),primary key(usn,subcode,ssid),foreign key(usn) references Student(usn) ON Update cascade ON Delete cascade,foreign key(ssid) references Semsec(ssid) ON Update cascade ON Delete cascade);
+desc Iamarks;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| usn     | varchar(10) | NO   | PRI | NULL    |       |
+| subcode | varchar(10) | NO   | PRI | NULL    |       |
+| ssid    | varchar(10) | NO   | PRI | NULL    |       |
+| test1   | int(10)     | YES  |     | NULL    |       |
+| test2   | int(10)     | YES  |     | NULL    |       |
+| test3   | int(10)     | YES  |     | NULL    |       |
+| finalia | int(10)     | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+
+
+insert into Student values("1BI15CS101","Amar","Bangalore",983111212,"Male");
+insert into Student values("1BI15CS102","Raj","Mangalore",983111213,"Male");
+insert into Student values("1BI15CS103","Rama","Mangalore",983111214,"Female");
+insert into Student values("1BI15CS104","Jack","Bangalore",983111215,"Male");
+insert into Student values("1BI15CS105","John","Bangalore",983111216,"Male");
+select *from Student;
++------------+-------+-----------+-----------+--------+
+| usn        | sname | address   | phone     | gender |
++------------+-------+-----------+-----------+--------+
+| 1BI15CS101 | Amar  | Bangalore | 983111212 | Male   |
+| 1BI15CS102 | Raj   | Mangalore | 983111213 | Male   |
+| 1BI15CS103 | Rama  | Mangalore | 983111214 | Female |
+| 1BI15CS104 | Jack  | Bangalore | 983111215 | Male   |
+| 1BI15CS105 | John  | Bangalore | 983111216 | Male   |
++------------+-------+-----------+-----------+--------+
+
+
+ insert into Semsec values(01,2,"C");
+insert into Semsec values(02,4,"C");
+insert into Semsec values(03,8,"A");
+insert into Semsec values(04,8,"B");
+insert into Semsec values(05,8,"C");
+Select *from Semsec;
++------+------+------+
+| ssid | sem  | sec  |
++------+------+------+
+| 1    |    2 | C    |
+| 2    |    4 | C    |
+| 3    |    8 | A    |
+| 4    |    8 | B    |
+| 5    |    8 | C    |
++------+------+------+
+
+
+ insert into Class values("1BI15CS101",01);
+ insert into Class values("1BI15CS102",02);
+ insert into Class values("1BI15CS103",03);
+insert into Class values("1BI15CS104",04);
+insert into Class values("1BI15CS105",05);
+select *from Class;
++------------+------+
+| usn        | ssid |
++------------+------+
+| 1BI15CS101 | 1    |
+| 1BI15CS102 | 2    |
+| 1BI15CS103 | 3    |
+| 1BI15CS104 | 4    |
+| 1BI15CS105 | 5    |
++------------+------+
+
+ insert into Course values("18CS21","CPS",2,4);
+ insert into Course values("18CS41","MES",4,3);
+ insert into Course values("18CS81","WEB",8,4);
+insert into Course values("18CS82","DA",8,3);
+insert into Course values("18CS83","ME",8,3);
+SELECT *from Course;
++---------+-------+------+---------+
+| subcode | title | sem  | credits |
++---------+-------+------+---------+
+| 18CS21  | CPS   |    2 |       4 |
+| 18CS41  | MES   |    4 |       3 |
+| 18CS81  | WEB   |    8 |       4 |
+| 18CS82  | DA    |    8 |       3 |
+| 18CS83  | ME    |    8 |       3 |
++---------+-------+------+---------+
